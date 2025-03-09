@@ -13,6 +13,7 @@ public class ProductPacking : MonoBehaviour
 
     public PalletManager palletManager;
     public GameControl gameControl;
+    public ProgressManager progressManager;
 
     public void ProductPackActive(int _productIndex)
     {
@@ -45,12 +46,24 @@ public class ProductPacking : MonoBehaviour
         openPack.transform.DOScale(Vector3.zero, 0.35f).SetEase(Ease.InOutElastic);
         closePack.transform.DOScale(Vector3.one, 0.35f).SetEase(Ease.InOutElastic).onComplete += ()=> 
         {
-            GameObject _child0 = transform.GetChild(0).gameObject;
-            gameControl.CreateProduct();
-            _child0.transform.parent = palletManager.positions[palletManager._index].transform;
-            palletManager.ChangePosition();
-            _child0.transform.DOLocalRotate(Vector3.zero, 0.35f);
-            _child0.transform.DOLocalJump(Vector3.zero, 1, 1, 0.4f);
+            if(progressManager.counted >= 17)
+            {
+                GameObject _child0 = transform.GetChild(0).gameObject;
+                _child0.transform.parent = palletManager.positions[palletManager._index].transform;
+                palletManager.ChangePosition();
+                _child0.transform.DOLocalRotate(Vector3.zero, 0.35f);
+                _child0.transform.DOLocalJump(Vector3.zero, 1, 1, 0.4f);
+                gameControl.Finish();
+            }
+            else
+            {
+                GameObject _child0 = transform.GetChild(0).gameObject;
+                gameControl.CreateProduct(false);
+                _child0.transform.parent = palletManager.positions[palletManager._index].transform;
+                palletManager.ChangePosition();
+                _child0.transform.DOLocalRotate(Vector3.zero, 0.35f);
+                _child0.transform.DOLocalJump(Vector3.zero, 1, 1, 0.4f);
+            }
         };
     }
 }

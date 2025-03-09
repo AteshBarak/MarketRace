@@ -4,7 +4,7 @@ using UnityEngine;
 public class ProgressManager : MonoBehaviour
 {
     public int finalCount;
-    private int counted = 0;
+    public int counted = 0;
     public TextMeshProUGUI infoText;
 
     private void Start()
@@ -19,7 +19,7 @@ public class ProgressManager : MonoBehaviour
 
         if(counted == finalCount)
         {
-
+            print("Finish");
         }
     }
 }

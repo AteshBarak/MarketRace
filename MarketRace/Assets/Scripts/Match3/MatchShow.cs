@@ -9,6 +9,8 @@ public class MatchShow : MonoBehaviour
 
     public void ShowProduct(ProductPacking productPacking)
     {
+        if (productIndex == 3) return;
+
         productIndex += 1;
         Vector3 _scale = products[productIndex - 1].transform.localScale;
         products[productIndex - 1].transform.localScale = Vector3.zero;

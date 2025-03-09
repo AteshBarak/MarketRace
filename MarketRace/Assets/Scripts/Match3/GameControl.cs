@@ -10,34 +10,44 @@ public class GameControl : MonoBehaviour
     public ConveyorSpeedManager conveyorSpeed;
     public ProductSpawner productSpawner;
 
-    public Timer timer;
-
     public ProgressManager progressManager;
 
     private float timeToChangeSpeed = 0.001f;
-    
 
     private void Start()
     {
-        CreateProduct();
+        CreateProduct(true);
     }
 
-    public void CreateProduct()
+    public void CreateProduct(bool isStarted)
     {
-        productIndex = Random.Range(0, maxProductIndex);
+        if (!isStarted)
+        {
+            productIndex += 1;
+            progressManager.CalculateAndShow();
+        }
+
         showProductManager.ShowProduct(productIndex);
         productPacking.ProductPackActive(productIndex);
     }
 
+    public void Finish()
+    {
+        productIndex += 1;
+        progressManager.CalculateAndShow();
+        showProductManager.gameObject.SetActive(false);
+        productPacking.gameObject.SetActive(false);
+    }
+
     private void SpeedChange()
     {
-        conveyorSpeed.ChangeSpeed(1.00005f);
-        productSpawner.ChangeSpeed(1.00005f);
+        conveyorSpeed.ChangeSpeed(1.000005f);
+        productSpawner.ChangeSpeed(1.000005f);
     }
 
     private void Update()
     {
-        if(timeToChangeSpeed > 0.001f) 
+        if(timeToChangeSpeed > 0.00075f) 
         {
             timeToChangeSpeed = 0;
             SpeedChange();
